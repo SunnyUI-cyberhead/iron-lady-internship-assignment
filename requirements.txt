@@ -1,0 +1,83 @@
+# Iron Lady Internship Assignment - Complete Requirements
+# AI & Technology Intern (EdTech) - Technical Tasks
+
+# ============================================
+# TASK 1: AI-Enhanced Chatbot Dependencies
+# ============================================
+
+# Core OpenAI integration for intelligent chatbot
+openai>=1.0.0
+
+# Standard library modules used (no installation needed):
+# - re, random, datetime, json, os
+
+# ============================================
+# TASK 2: Advanced Course Management System
+# ============================================
+
+# Backend API Framework
+Flask>=2.3.0
+flask-cors>=4.0.0
+
+# Database and Data Processing
+pandas>=2.0.0
+sqlite3  # Built-in with Python
+
+# Additional utilities for advanced features
+python-dotenv>=1.0.0  # For environment variable management
+werkzeug>=2.3.0      # Flask utilities (usually comes with Flask)
+
+# Optional: For enhanced CSV processing
+openpyxl>=3.1.0      # Excel file support
+xlrd>=2.0.0          # Excel reading support
+
+# ============================================
+# Development and Testing (Optional)
+# ============================================
+
+# For development and testing (uncomment if needed)
+# pytest>=7.0.0
+# requests>=2.31.0    # For API testing
+# python-multipart>=0.0.6  # For file uploads
+
+# ============================================
+# Python Version Requirements
+# ============================================
+
+# Python 3.7+ required (for OpenAI library compatibility)
+# Python 3.8+ recommended for best performance
+
+# ============================================
+# SETUP INSTRUCTIONS
+# ============================================
+
+# 1. Install dependencies:
+#    pip install -r requirements.txt
+
+# 2. Set OpenAI API key (optional - has fallback):
+#    export OPENAI_API_KEY='your-api-key-here'
+
+# 3. Start the application:
+#    python app.py
+#    # Backend runs on: http://localhost:5000
+
+# 4. Open frontend:
+#    python -m http.server 8080
+#    # Frontend runs on: http://localhost:8080
+
+# ============================================
+# FEATURES INCLUDED
+# ============================================
+
+# ✅ Modern Web Interface with Glass-morphism UI
+# ✅ Real-time Analytics Dashboard  
+# ✅ AI-Powered Course Content Generation
+# ✅ Advanced Search & Filtering
+# ✅ Student Enrollment Management
+# ✅ Data Export & Import (JSON/CSV)
+# ✅ Mobile-Responsive Design
+# ✅ RESTful API Backend
+# ✅ SQLite Database with Relationships
+# ✅ Error Handling & Fallback Systems
+# ✅ Professional Course Rating System
+# ✅ Bulk Operations Support

@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iron Lady - Advanced Course Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2d1b69;
+            --secondary: #f39c12;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f1c40f;
+            --info: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gradient);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        /* Statistics Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Controls Section */
+        .controls {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--glass-border);
+        }
+
+        .control-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-secondary { background: var(--secondary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--accent); color: white; }
+        .btn-info { background: var(--info); color: white; }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(45, 27, 105, 0.1);
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* Course Grid */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .course-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .course-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .course-category {
+            background: var(--secondary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .course-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .course-description {
+            color: #555;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .course-actions .btn {
+            flex: 1;
+            font-size: 0.85em;
+            padding: 8px 12px;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            height: 8px;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .modal-title {
+            font-size: 1.5em;
+            color: var(--primary);
+        }
+
+        .close {
+            font-size: 28px;
+            cursor: pointer;
+            color: #aaa;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--accent);
+        }
+
+        /* Loading & Empty States */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #666;
+            display: none;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5em;
+            margin: 20px 0 10px;
+            color: var(--primary);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--success);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+            font-weight: 500;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: var(--accent);
+        }
+
+        .notification.warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        /* AI Suggestions */
+        .ai-suggestions {
+            background: var(--gradient);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .ai-suggestions h4 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-content {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .control-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-filter {
+                flex-direction: column;
+            }
+            
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎓 Iron Lady Course Management</h1>
+            <p>Advanced AI-Powered Learning Management System</p>
+        </div>
+
+        <!-- Statistics Dashboard -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCourses">-</div>
+                <div class="stat-label">Total Courses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalStudents">-</div>
+                <div class="stat-label">Enrolled Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalInstructors">-</div>
+                <div class="stat-label">Active Instructors</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgRating">-</div>
+                <div class="stat-label">Average Rating</div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <div class="control-row">
+                <button class="btn btn-primary" onclick="openCreateModal()">
+                    ➕ Create Course
+                </button>
+                <button class="btn btn-secondary" onclick="exportCourses()">
+                    📊 Export Data
+                </button>
+                <button class="btn btn-info" onclick="showAIInsights()">
+                    🤖 AI Insights
+                </button>
+                <button class="btn btn-success" onclick="refreshData()">
+                    🔄 Refresh
+                </button>
+            </div>
+            
+            <div class="search-filter">
+                <input type="text" id="searchInput" class="form-control" 
+                       placeholder="🔍 Search courses, instructors, or categories..." 
+                       style="flex: 2;" onkeyup="filterCourses()">
+                <select id="categoryFilter" class="form-control" onchange="filterCourses()">
+                    <option value="">All Categories</option>
+                </select>
+                <select id="statusFilter" class="form-control" onchange="filterCourses()">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="draft">Draft</option>
+                    <option value="completed">Completed</option>
+                </select>
+                <select id="sortBy" class="form-control" onchange="filterCourses()">
+                    <option value="created_at">Newest First</option>
+                    <option value="title">Title A-Z</option>
+                    <option value="enrolled">Most Students</option>
+                    <option value="rating">Highest Rated</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loadingState">
+            <div class="spinner"></div>
+            <p>Loading courses...</p>
+        </div>
+
+        <!-- Course Grid -->
+        <div class="course-grid" id="courseGrid"></div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState">
+            <div style="font-size: 4em;">📚</div>
+            <h3>No Courses Found</h3>
+            <p>Start by creating your first course or adjust your search filters.</p>
+            <br>
+            <button class="btn btn-primary" onclick="openCreateModal()">Create First Course</button>
+        </div>
+    </div>
+
+    <!-- Course Modal -->
+    <div id="courseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Create New Course</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <form id="courseForm" onsubmit="saveCourse(event)">
+                <div class="form-group">
+                    <label for="courseTitle">Course Title *</label>
+                    <input type="text" id="courseTitle" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="courseDescription">Description *</label>
+                    <textarea id="courseDescription" class="form-control" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="courseDuration">Duration *</label>
+                    <input type="text" id="courseDuration" class="form-control" 
+                           placeholder="e.g., 8 weeks, 3 months" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="courseInstructor">Instructor *</label>
+                    <input type="text" id="courseInstructor" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="courseCategory">Category</label>
+                    <select id="courseCategory" class="form-control">
+                        <option value="Leadership">Leadership</option>
+                        <option value="Management">Management</option>
+                        <option value="Technical">Technical</option>
+                        <option value="Soft Skills">Soft Skills</option>
+                        <option value="Professional Development">Professional Development</option>
+                        <option value="General">General</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="coursePrice">Price ($)</label>
+                    <input type="number" id="coursePrice" class="form-control" min="0" step="0.01" value="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="courseCapacity">Maximum Students</label>
+                    <input type="number" id="courseCapacity" class="form-control" min="1" value="30">
+                </div>
+                
+                <div class="form-group">
+                    <label for="courseStatus">Status</label>
+                    <select id="courseStatus" class="form-control">
+                        <option value="draft">Draft</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+
+                <!-- AI Suggestions -->
+                <div class="ai-suggestions" id="aiSuggestions">
+                    <h4>🤖 AI Course Suggestions</h4>
+                    <div id="aiContent" class="ai-content">
+                        Click "Get AI Help" to generate smart suggestions for your course!
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 30px; flex-wrap: wrap;">
+                    <button type="submit" class="btn btn-success" style="flex: 1;">💾 Save Course</button>
+                    <button type="button" class="btn btn-info" onclick="getAIHelp()" style="flex: 1;">🤖 Get AI Help</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'http://localhost:5000/api';
+        
+        // Global state
+        let courses = [];
+        let filteredCourses = [];
+        let currentEditId = null;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Iron Lady Course Management System Loading...');
+            initializeApp();
+        });
+
+        async function initializeApp() {
+            showLoading(true);
+            await loadCourses();
+            populateFilters();
+            updateStats();
+            renderCourses();
+            showLoading(false);
+            showNotification('Course Management System loaded successfully!', 'success');
+        }
+
+        // API Functions
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const url = `${API_BASE_URL}${endpoint}`;
+                const response = await fetch(url, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    ...options
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                showNotification(`API Error: ${error.message}`, 'error');
+                throw error;
+            }
+        }
+
+        async function loadCourses() {
+            try {
+                const data = await apiCall('/courses');
+                courses = data.courses || [];
+                filteredCourses = [...courses];
+                console.log(`📚 Loaded ${courses.length} courses`);
+            } catch (error) {
+                console.error('Failed to load courses:', error);
+                courses = getSampleCourses(); // Fallback to sample data
+                filteredCourses = [...courses];
+            }
+        }
+
+        async function saveCourse(event) {
+            event.preventDefault();
+            
+            const courseData = {
+                title: document.getElementById('courseTitle').value.trim(),
+                description: document.getElementById('courseDescription').value.trim(),
+                duration: document.getElementById('courseDuration').value.trim(),
+                instructor: document.getElementById('courseInstructor').value.trim(),
+                category: document.getElementById('courseCategory').value,
+                price: parseFloat(document.getElementById('coursePrice').value) || 0,
+                capacity: parseInt(document.getElementById('courseCapacity').value) || 30,
+                status: document.getElementById('courseStatus').value
+            };
+
+            // Validation
+            if (!courseData.title || !courseData.description || !courseData.duration || !courseData.instructor) {
+                showNotification('Please fill in all required fields!', 'error');
+                return;
+            }
+
+            try {
+                showLoading(true);
+                
+                if (currentEditId) {
+                    await apiCall(`/courses/${currentEditId}`, {
+                        method: 'PUT',
+                        body: JSON.stringify(courseData)
+                    });
+                    showNotification('Course updated successfully!', 'success');
+                } else {
+                    await apiCall('/courses', {
+                        method: 'POST',
+                        body: JSON.stringify(courseData)
+                    });
+                    showNotification('Course created successfully!', 'success');
+                }
+                
+                await loadCourses();
+                updateStats();
+                renderCourses();
+                closeModal();
+                
+            } catch (error) {
+                showNotification('Failed to save course. Please try again.', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function deleteCourse(courseId) {
+            const course = courses.find(c => c.id === courseId);
+            if (!course) return;
+
+            if (!confirm(`Are you sure you want to delete "${course.title}"?\n\nThis action cannot be undone.`)) {
+                return;
+            }
+
+            try {
+                showLoading(true);
+                await apiCall(`/courses/${courseId}`, { method: 'DELETE' });
+                await loadCourses();
+                updateStats();
+                renderCourses();
+                showNotification('Course deleted successfully!', 'success');
+            } catch (error) {
+                showNotification('Failed to delete course. Please try again.', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function enrollStudent(courseId) {
+            try {
+                showLoading(true);
+                await apiCall(`/courses/${courseId}/enroll`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        student_name: 'New Student',
+                        student_email: `student${Date.now()}@example.com`
+                    })
+                });
+                await loadCourses();
+                updateStats();
+                renderCourses();
+                showNotification('Student enrolled successfully!', 'success');
+            } catch (error) {
+                showNotification('Failed to enroll student. Course might be full.', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // UI Functions
+        function updateStats() {
+            const totalCourses = courses.length;
+            const totalStudents = courses.reduce((sum, course) => sum + (course.enrolled || 0), 0);
+            const totalInstructors = new Set(courses.map(course => course.instructor)).size;
+            const avgRating = totalCourses > 0 ? 
+                (courses.reduce((sum, course) => sum + (course.rating || 0), 0) / totalCourses).toFixed(1) : '0.0';
+
+            document.getElementById('totalCourses').textContent = totalCourses;
+            document.getElementById('totalStudents').textContent = totalStudents;
+            document.getElementById('totalInstructors').textContent = totalInstructors;
+            document.getElementById('avgRating').textContent = avgRating;
+        }
+
+        function populateFilters() {
+            const categories = [...new Set(courses.map(course => course.category))].sort();
+            const categoryFilter = document.getElementById('categoryFilter');
+            
+            categoryFilter.innerHTML = '<option value="">All Categories</option>';
+            categories.forEach(category => {
+                categoryFilter.innerHTML += `<option value="${category}">${category}</option>`;
+            });
+        }
+
+        function filterCourses() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const sortBy = document.getElementById('sortBy').value;
+
+            filteredCourses = courses.filter(course => {
+                const matchesSearch = !searchTerm || 
+                    course.title.toLowerCase().includes(searchTerm) ||
+                    course.instructor.toLowerCase().includes(searchTerm) ||
+                    course.description.toLowerCase().includes(searchTerm) ||
+                    course.category.toLowerCase().includes(searchTerm);
+
+                const matchesCategory = !categoryFilter || course.category === categoryFilter;
+                const matchesStatus = !statusFilter || course.status === statusFilter;
+
+                return matchesSearch && matchesCategory && matchesStatus;
+            });
+
+            // Sort courses
+            filteredCourses.sort((a, b) => {
+                switch (sortBy) {
+                    case 'title':
+                        return a.title.localeCompare(b.title);
+                    case 'enrolled':
+                        return (b.enrolled || 0) - (a.enrolled || 0);
+                    case 'rating':
+                        return (b.rating || 0) - (a.rating || 0);
+                    default: // created_at
+                        return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+                }
+            });
+
+            renderCourses();
+        }
+
+        function renderCourses() {
+            const grid = document.getElementById('courseGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (filteredCourses.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            emptyState.style.display = 'none';
+            grid.innerHTML = filteredCourses.map(course => createCourseCard(course)).join('');
+        }
+
+        function createCourseCard(course) {
+            const enrollmentPercent = course.capacity > 0 ? (course.enrolled / course.capacity) * 100 : 0;
+            const statusColors = {
+                active: '#27ae60',
+                draft: '#f39c12',
+                completed: '#95a5a6'
+            };
+
+            const createdDate = course.created_at ? 
+                new Date(course.created_at).toLocaleDateString() : 'Unknown';
+
+            return `
+                <div class="course-card">
+                    <div class="course-header">
+                        <div>
+                            <div class="course-title">${course.title}</div>
+                            <div style="color: #666; font-size: 0.9em;">by ${course.instructor}</div>
+                        </div>
+                        <div class="course-category">${course.category}</div>
+                    </div>
+                    
+                    <div class="course-description">${course.description}</div>
+                    
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <span>⏰</span>
+                            <span>${course.duration}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>👥</span>
+                            <span>${course.enrolled || 0}/${course.capacity}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>💰</span>
+                            <span>${course.price ? '$' + course.price : 'Free'}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span>⭐</span>
+                            <span>${course.rating || 'N/A'}</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Enrollment Progress</span>
+                            <span>${Math.round(enrollmentPercent)}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${enrollmentPercent}%"></div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 15px 0;">
+                        <div style="
+                            padding: 4px 12px; 
+                            border-radius: 15px; 
+                            background: ${statusColors[course.status] || '#95a5a6'}; 
+                            color: white; 
+                            font-size: 0.8em;
+                            text-transform: uppercase;
+                            font-weight: 600;
+                        ">${course.status}</div>
+                        <div style="color: #666; font-size: 0.9em;">
+                            Created ${createdDate}
+                        </div>
+                    </div>
+                    
+                    <div class="course-actions">
+                        <button class="btn btn-primary" onclick="editCourse('${course.id}')">
+                            ✏️ Edit
+                        </button>
+                        <button class="btn btn-success" onclick="enrollStudent('${course.id}')">
+                            👥 Enroll
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteCourse('${course.id}')">
+                            🗑️ Delete
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Modal Functions
+        function openCreateModal() {
+            currentEditId = null;
+            document.getElementById('modalTitle').textContent = 'Create New Course';
+            document.getElementById('courseForm').reset();
+            document.getElementById('aiSuggestions').style.display = 'none';
+            document.getElementById('courseModal').style.display = 'block';
+        }
+
+        function editCourse(courseId) {
+            const course = courses.find(c => c.id === courseId);
+            if (!course) {
+                showNotification('Course not found!', 'error');
+                return;
+            }
+
+            currentEditId = courseId;
+            document.getElementById('modalTitle').textContent = 'Edit Course';
+            
+            // Populate form fields
+            document.getElementById('courseTitle').value = course.title || '';
+            document.getElementById('courseDescription').value = course.description || '';
+            document.getElementById('courseDuration').value = course.duration || '';
+            document.getElementById('courseInstructor').value = course.instructor || '';
+            document.getElementById('courseCategory').value = course.category || 'General';
+            document.getElementById('coursePrice').value = course.price || 0;
+            document.getElementById('courseCapacity').value = course.capacity || 30;
+            document.getElementById('courseStatus').value = course.status || 'draft';
+            
+            document.getElementById('aiSuggestions').style.display = 'none';
+            document.getElementById('courseModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('courseModal').style.display = 'none';
+            document.getElementById('courseForm').reset();
+            currentEditId = null;
+        }
+
+        // AI Functions
+        async function getAIHelp() {
+            const title = document.getElementById('courseTitle').value.trim();
+            const category = document.getElementById('courseCategory').value;
+            
+            if (!title) {
+                showNotification('Please enter a course title first!', 'warning');
+                return;
+            }
+
+            const aiSuggestions = document.getElementById('aiSuggestions');
+            const aiContent = document.getElementById('aiContent');
+            
+            aiSuggestions.style.display = 'block';
+            aiContent.innerHTML = `
+                <div style="text-align: center;">
+                    <div class="spinner" style="width: 30px; height: 30px; margin: 10px auto;"></div>
+                    <p>Generating AI suggestions for "${title}"...</p>
+                </div>
+            `;
+
+            try {
+                const response = await apiCall('/ai/generate-course', {
+                    method: 'POST',
+                    body: JSON.stringify({ title, category })
+                });
+
+                const suggestions = response.suggestions;
+                displayAISuggestions(suggestions);
+            } catch (error) {
+                console.log('AI API not available, using fallback suggestions');
+                const fallbackSuggestions = generateFallbackSuggestions(title, category);
+                displayAISuggestions(fallbackSuggestions);
+            }
+        }
+
+        function displayAISuggestions(suggestions) {
+            const aiContent = document.getElementById('aiContent');
+            
+            aiContent.innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <strong>📝 Suggested Description:</strong>
+                    <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 8px; margin: 8px 0; line-height: 1.5;">
+                        ${suggestions.description || 'Comprehensive course covering essential concepts and practical applications.'}
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="applyDescription('${suggestions.description || ''}')">
+                        ✅ Apply Description
+                    </button>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <strong>⏰ Suggested Duration:</strong>
+                    <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 8px; margin: 8px 0;">
+                        ${suggestions.duration || '6-8 weeks'}
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="applyDuration('${suggestions.duration || '6-8 weeks'}')">
+                        ✅ Apply Duration
+                    </button>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <strong>💰 Suggested Price Range:</strong>
+                    <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 8px; margin: 8px 0;">
+                        ${suggestions.suggested_price || '1500-2500'}
+                    </div>
+                </div>
+                
+                <div>
+                    <strong>🎯 Learning Outcomes:</strong>
+                    <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 8px; margin: 8px 0;">
+                        ${Array.isArray(suggestions.learning_outcomes) ? 
+                            suggestions.learning_outcomes.join(', ') : 
+                            (suggestions.learning_outcomes || 'Enhanced skills and practical knowledge')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateFallbackSuggestions(title, category) {
+            const suggestions = {
+                'Leadership': {
+                    description: 'Develop essential leadership skills through interactive workshops, case studies, and real-world applications. Learn to inspire teams, make strategic decisions, and drive organizational change.',
+                    duration: '12 weeks',
+                    learning_outcomes: ['Strategic Leadership', 'Team Management', 'Decision Making', 'Communication'],
+                    suggested_price: '2000-3000'
+                },
+                'Technical': {
+                    description: 'Master cutting-edge technical skills with hands-on projects and industry best practices. Build practical expertise for immediate application in your career.',
+                    duration: '8 weeks',
+                    learning_outcomes: ['Technical Expertise', 'Problem Solving', 'Innovation', 'Implementation'],
+                    suggested_price: '1500-2500'
+                },
+                'Management': {
+                    description: 'Comprehensive management training covering people, processes, and performance optimization. Learn to balance operational excellence with strategic vision.',
+                    duration: '10 weeks',
+                    learning_outcomes: ['People Management', 'Process Optimization', 'Performance Management', 'Strategic Planning'],
+                    suggested_price: '1800-2800'
+                }
+            };
+
+            return suggestions[category] || suggestions['Leadership'];
+        }
+
+        function applyDescription(description) {
+            document.getElementById('courseDescription').value = description;
+            showNotification('Description applied successfully!', 'success');
+        }
+
+        function applyDuration(duration) {
+            document.getElementById('courseDuration').value = duration;
+            showNotification('Duration applied successfully!', 'success');
+        }
+
+        // Utility Functions
+        function showLoading(show) {
+            const loadingElement = document.getElementById('loadingState');
+            const courseGrid = document.getElementById('courseGrid');
+            
+            if (show) {
+                loadingElement.style.display = 'block';
+                courseGrid.style.display = 'none';
+            } else {
+                loadingElement.style.display = 'none';
+                courseGrid.style.display = 'grid';
+            }
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            
+            // Remove existing classes
+            notification.className = 'notification';
+            
+            // Add type-specific class
+            if (type === 'error') notification.classList.add('error');
+            if (type === 'warning') notification.classList.add('warning');
+            
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            // Auto-hide after 4 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        async function refreshData() {
+            showNotification('Refreshing data...', 'info');
+            await initializeApp();
+        }
+
+        async function exportCourses() {
+            try {
+                showNotification('Preparing export...', 'info');
+                
+                // Try API export first
+                const response = await fetch(`${API_BASE_URL}/export/courses?format=json`);
+                if (response.ok) {
+                    const data = await response.json();
+                    downloadJSON(data, `iron-lady-courses-${new Date().toISOString().split('T')[0]}.json`);
+                    showNotification('Courses exported successfully!', 'success');
+                } else {
+                    // Fallback to client-side export
+                    const exportData = {
+                        export_date: new Date().toISOString(),
+                        total_courses: courses.length,
+                        courses: courses
+                    };
+                    downloadJSON(exportData, `iron-lady-courses-${new Date().toISOString().split('T')[0]}.json`);
+                    showNotification('Courses exported successfully! (Client-side)', 'success');
+                }
+            } catch (error) {
+                console.error('Export failed:', error);
+                showNotification('Export failed. Please try again.', 'error');
+            }
+        }
+
+        function downloadJSON(data, filename) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function showAIInsights() {
+            const insights = [
+                '🎯 Consider adding more technical courses - high demand in job market',
+                '📊 Leadership courses have 95% completion rate - expand this category',
+                '💼 Partner with local companies for corporate training programs',
+                '🌐 Online courses reach 3x more students than offline ones',
+                '⭐ Courses with ratings above 4.5 get 40% more enrollments'
+            ];
+            
+            const randomInsight = insights[Math.floor(Math.random() * insights.length)];
+            showNotification(`AI Insight: ${randomInsight}`, 'info');
+        }
+
+        function getSampleCourses() {
+            // Fallback sample data when API is not available
+            return [
+                {
+                    id: '1',
+                    title: 'Executive Leadership Mastery',
+                    description: 'Comprehensive program for senior leaders focusing on strategic thinking, team management, and organizational transformation.',
+                    duration: '6 months',
+                    instructor: 'Dr. Sarah Johnson',
+                    category: 'Leadership',
+                    price: 2999,
+                    capacity: 25,
+                    enrolled: 18,
+                    status: 'active',
+                    rating: 4.8,
+                    created_at: '2024-01-15T00:00:00Z'
+                },
+                {
+                    id: '2',
+                    title: 'Women in Leadership Certification',
+                    description: 'Empowering women professionals with leadership skills, confidence building, and career advancement strategies.',
+                    duration: '3 months',
+                    instructor: 'Michelle Rodriguez',
+                    category: 'Leadership',
+                    price: 1999,
+                    capacity: 30,
+                    enrolled: 22,
+                    status: 'active',
+                    rating: 4.9,
+                    created_at: '2024-02-01T00:00:00Z'
+                },
+                {
+                    id: '3',
+                    title: 'Digital Transformation Strategy',
+                    description: 'Learn to lead digital initiatives and transform organizations in the digital age.',
+                    duration: '4 weeks',
+                    instructor: 'Alex Chen',
+                    category: 'Technical',
+                    price: 1499,
+                    capacity: 20,
+                    enrolled: 15,
+                    status: 'active',
+                    rating: 4.7,
+                    created_at: '2024-02-15T00:00:00Z'
+                }
+            ];
+        }
+
+        // Event Listeners
+        window.onclick = function(event) {
+            const modal = document.getElementById('courseModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+            if (e.ctrlKey && e.key === 'n') {
+                e.preventDefault();
+                openCreateModal();
+            }
+        });
+
+        // Auto-refresh data every 5 minutes
+        setInterval(() => {
+            console.log('🔄 Auto-refreshing course data...');
+            loadCourses().then(() => {
+                updateStats();
+                renderCourses();
+            });
+        }, 300000); // 5 minutes
+
+        console.log('✅ Iron Lady Course Management System Ready!');
+        console.log('🔗 API Base URL:', API_BASE_URL);
+        console.log('⌨️  Keyboard shortcuts: Ctrl+N (New Course), Escape (Close Modal)');
+    </script>
+</body>
+</html>
