@@ -347,11 +347,9 @@ python app.py
 
 ## 📞 **Support & Contact**
 
-**Developer**: [Your Name]  
-**Email**: [your.email@example.com]  
-**LinkedIn**: [your-linkedin-profile]  
-**Portfolio**: [your-portfolio-website]
-
+**Developer**: [Arunov Chakraborty]  
+**Email**: [manna.dsi@gmail.com]  
+  
 **For Iron Lady Team**: This project was developed specifically for the AI & Technology Intern position. All code is original and production-ready.
 
 ---
